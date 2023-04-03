@@ -81,5 +81,5 @@ In the case of the cache folder, the return value is the cache folder path of Go
 <br>
 
 # References
-[1] https://github.com/huggingface/transformers
+[1] https://github.com/huggingface/transformers <br>
 [2] https://github.com/wkentaro/gdown
