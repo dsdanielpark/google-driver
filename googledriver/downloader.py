@@ -142,6 +142,3 @@ def get_cachefile_from_driver(
         _raise_exceptions_for_missing_entries=False,
         _raise_exceptions_for_connection_errors=False,
     )
-
-
-

@@ -16,8 +16,6 @@ import bs4
 import requests
 
 
-
-
 class _GoogleDriveObj(object):
     FOLDER = "application/vnd.google-apps.folder"
 
@@ -40,17 +38,11 @@ def _parse_google_drive_obj(URL, content):
         inner_html = script.decode_contents()
 
         if "_DRIVE_ivd" in inner_html:
-            regex_iter = re.compile(r"'((?:[^'\\]|\\.)*)'").finditer(
-                inner_html
-            )
+            regex_iter = re.compile(r"'((?:[^'\\]|\\.)*)'").finditer(inner_html)
             try:
-                encoded_data = next(
-                    itertools.islice(regex_iter, 1, None)
-                ).group(1)
+                encoded_data = next(itertools.islice(regex_iter, 1, None)).group(1)
             except StopIteration:
-                raise RuntimeError(
-                    "Couldn't find the folder encoded JS string"
-                )
+                raise RuntimeError("Couldn't find the folder encoded JS string")
             break
 
     with warnings.catch_warnings():
@@ -60,7 +52,7 @@ def _parse_google_drive_obj(URL, content):
 
     folder_contents = [] if folder_arr[0] is None else folder_arr[0]
 
-    sep = " - "  
+    sep = " - "
     splitted = folder_soup.title.contents[0].split(sep)
     if len(splitted) >= 2:
         name = sep.join(splitted[:-1])
@@ -72,9 +64,7 @@ def _parse_google_drive_obj(URL, content):
         )
 
     google_drive_file = _GoogleDriveObj(
-        id=URL.split("/")[-1],
-        name=name,
-        type=_GoogleDriveObj.FOLDER,
+        id=URL.split("/")[-1], name=name, type=_GoogleDriveObj.FOLDER,
     )
 
     id_name_type_iter = [
@@ -85,9 +75,7 @@ def _parse_google_drive_obj(URL, content):
     return google_drive_file, id_name_type_iter
 
 
-def _get_google_drive_objs(
-    URL,
-):
+def _get_google_drive_objs(URL,):
 
     status_code = True
 
@@ -98,13 +86,11 @@ def _get_google_drive_objs(
         URL += "?hl=en"
 
     session = requests.Session()
-    
+
     try:
         res = session.get(URL)
     except requests.exceptions.ProxyError as e:
-        print(
-            "An error has occurred using proxy:", session.proxies, file=sys.stderr
-        )
+        print("An error has occurred using proxy:", session.proxies, file=sys.stderr)
         print(e, file=sys.stderr)
         return False, None
 
@@ -112,18 +98,13 @@ def _get_google_drive_objs(
         return False, None
 
     google_drive_file, id_name_type_iter = _parse_google_drive_obj(
-        URL=URL,
-        content=res.text,
+        URL=URL, content=res.text,
     )
 
     for child_id, child_name, child_type in id_name_type_iter:
         if child_type != _GoogleDriveObj.FOLDER:
             google_drive_file.children.append(
-                _GoogleDriveObj(
-                    id=child_id,
-                    name=child_name,
-                    type=child_type,
-                )
+                _GoogleDriveObj(id=child_id, name=child_name, type=child_type,)
             )
             if not status_code:
                 return status_code, None
@@ -146,18 +127,15 @@ def _get_directory_structure(google_drive_file, previous_path):
     for file in google_drive_file.children:
         file.name = file.name.replace(ospath.sep, "_")
         if file.is_folder():
-            directory_structure.append(
-                (None, ospath.join(previous_path, file.name))
-            )
+            directory_structure.append((None, ospath.join(previous_path, file.name)))
             for i in _get_directory_structure(
                 file, ospath.join(previous_path, file.name)
             ):
                 directory_structure.append(i)
         elif not file.children:
-            directory_structure.append(
-                (file.id, ospath.join(previous_path, file.name))
-            )
+            directory_structure.append((file.id, ospath.join(previous_path, file.name)))
     return directory_structure
+
 
 cache_root = os.path.join(os.path.expanduser("~"), ".cache\\googledriver")
 if not os.path.exists(cache_root):
@@ -167,18 +145,12 @@ if not os.path.exists(cache_root):
         pass
 
 
-def download_folder(
-    URL=None,
-    save_path=None,
-    cached=None
-):
+def download_folder(URL=None, save_path=None, cached=None):
 
     session = requests.Session()
 
     try:
-        status_code, google_drive_file = _get_google_drive_objs(
-            URL,
-        )
+        status_code, google_drive_file = _get_google_drive_objs(URL,)
     except RuntimeError as e:
         print("Failed to retrieve folder contents:", file=sys.stderr)
         error = "\n".join(textwrap.wrap(str(e)))
@@ -203,7 +175,7 @@ def download_folder(
 
     filenames = []
     for file_id, file_path in directory_structure:
-        if file_id is None:  
+        if file_id is None:
             if not ospath.exists(file_path):
                 os.makedirs(file_path, exist_ok=True)
             continue
@@ -211,7 +183,7 @@ def download_folder(
         filename = download(
             URL="https://drive.google.com/uc?id=" + file_id,
             save_path=file_path,
-            cached_filename=None
+            cached_filename=None,
         )
 
         if filename is None:
