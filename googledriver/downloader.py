@@ -7,12 +7,19 @@ from typing import Dict, List, Optional, Union
 from urllib.parse import urlparse
 from uuid import uuid4s
 import logging
+
 logger = logging.getLogger()
 
 ENV_VARS_TRUE_VALUES = {"1", "ON", "YES", "TRUE"}
-_is_offline_mode = True if os.environ.get("TRANSFORMERS_OFFLINE", "0").upper() in ENV_VARS_TRUE_VALUES else False
+_is_offline_mode = (
+    True
+    if os.environ.get("TRANSFORMERS_OFFLINE", "0").upper() in ENV_VARS_TRUE_VALUES
+    else False
+)
 
-torch_cache_home = os.getenv("TORCH_HOME", os.path.join(os.getenv("XDG_CACHE_HOME", "~/.cache"), "torch"))
+torch_cache_home = os.getenv(
+    "TORCH_HOME", os.path.join(os.getenv("XDG_CACHE_HOME", "~/.cache"), "torch")
+)
 gd_cache_home = os.path.join(torch_cache_home, "googledriver")
 DEFAULT_CACHE_FOLDER = os.path.join(gd_cache_home, "hub")
 _CACHED_NO_EXIST = object()
@@ -20,6 +27,7 @@ _CACHED_NO_EXIST = object()
 
 def is_offline_mode():
     return _is_offline_mode
+
 
 def download(URL: str, local_storage_full_path: str, cached_filename=None) -> str:
     """Just put the full file path in the local area and the Google Drive file path accessible to everyone, and you can download it.
@@ -35,21 +43,20 @@ def download(URL: str, local_storage_full_path: str, cached_filename=None) -> st
     """
 
     session = requests.Session()
-    response = session.get(URL, stream = True)
+    response = session.get(URL, stream=True)
     token = get_token(response)
     if token:
-        response = session.get(URL, stream = True)
-    
+        response = session.get(URL, stream=True)
+
     if cached_filename is not None:
         cached = try_to_load_from_cache(cached_filename, None)
         if cached == _CACHED_NO_EXIST:
             save_file(response, os.path.join(DEFAULT_CACHE_FOLDER, cached_filename))
     else:
-        cached = save_file(response, local_storage_full_path)    
+        cached = save_file(response, local_storage_full_path)
 
     return cached
 
-    
 
 def get_token(response: str) -> str:
     """The response to the Google Drive request is stored in the token.
@@ -60,8 +67,9 @@ def get_token(response: str) -> str:
     :rtype: str
     """
     for k, v in response.cookies.items():
-        if k.startswith('download_warning'):
+        if k.startswith("download_warning"):
             return v
+
 
 def save_file(response: str, local_storage_full_path: str) -> None:
     """Save the file to local storage in response to the request.
@@ -74,14 +82,14 @@ def save_file(response: str, local_storage_full_path: str) -> None:
     CHUNK_SIZE = 40000
     with open(local_storage_full_path, "wb") as f:
         for chunk in response.iter_content(CHUNK_SIZE):
-            if chunk: 
+            if chunk:
                 f.write(chunk)
 
     return None
 
+
 def try_to_load_from_cache(
-    cached_filename: str,
-    cache_dir: Union[str, Path, None] = None,
+    cached_filename: str, cache_dir: Union[str, Path, None] = None,
 ) -> Optional[str]:
 
     if cache_dir is None:
@@ -101,7 +109,7 @@ def cached_file(
     resume_download: bool = False,
     local_files_only: bool = False,
 ):
-   
+
     if is_offline_mode() and not local_files_only:
         logger.info("Offline mode: forcing local_files_only=True")
         local_files_only = True
@@ -140,9 +148,6 @@ def get_cachefile_from_driver(
         _raise_exceptions_for_missing_entries=False,
         _raise_exceptions_for_connection_errors=False,
     )
-
-
-
 
 
 # def download_url(url, proxies=None):
