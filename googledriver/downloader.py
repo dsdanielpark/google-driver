@@ -5,9 +5,9 @@ import os
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 from urllib.parse import urlparse
-import logging
+# import logging
 
-logger = logging.getLogger()
+# logger = logging.getLogger()
 
 ENV_VARS_TRUE_VALUES = {"1", "ON", "YES", "TRUE"}
 _is_offline_mode = (
@@ -110,7 +110,7 @@ def cached_file(
 ):
 
     if is_offline_mode() and not local_files_only:
-        logger.info("Offline mode: forcing local_files_only=True")
+        print("Offline mode: forcing local_files_only=True")
         local_files_only = True
 
     if cache_dir is None:
