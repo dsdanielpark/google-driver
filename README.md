@@ -18,7 +18,8 @@ pip install googledriver
 <br>
 
 # Features
-`Simple Download` <br>
+## 1. File Download
+`Download to specific path` <br>
 To save a file from a shared Google Drive URL to local storage, use the following code.
 ```python
 from googledriver import download
@@ -29,7 +30,7 @@ download(URL, './model/tf_gpt2_model')
 
 <br>
 
-`Download as Cached` <br>
+`Download to cached folder` <br>
 To download a cached file (or directory) from a URL and return its path, you can use the following method.
 
 ```python
@@ -42,5 +43,43 @@ Basically, torch cached is used, and the huggingface hub module is used as a ref
 
 <br>
 
+## 2. Folder Download
+The return value returns the path of the saved files. However, it is different when using it as a cache folder.
+`Download to current working directory` <br>
+```python
+from googledriver import download_folder
+
+URL = 'https://drive.google.com/file/d/xxxxxxxxx/view?usp=share_link'
+
+download_folder(URL)
+```
+<Br>
+
+`Download to specific directory` <br>
+```python
+from googledriver import download_folder
+
+URL = 'https://drive.google.com/file/d/xxxxxxxxx/view?usp=share_link'
+save_folder = "./any/path/to/save/'
+
+download_folder(URL, save_folder)
+```
+
+<br>
+
+`Download to cached directory` <br>
+```python
+from googledriver import download_folder
+
+URL = 'https://drive.google.com/file/d/xxxxxxxxx/view?usp=share_link'
+
+download_folder(URL, cached=True)
+```
+In the case of the cache folder, the return value is the cache folder path of Google Drive. Therefore, it may be difficult to cache and use multiple folders.
+
+
+<br>
+
 # References
 [1] https://github.com/huggingface/transformers
+[2] https://github.com/wkentaro/gdown
