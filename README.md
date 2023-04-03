@@ -41,3 +41,5 @@ cached_path = download(URL, None, 'tf_model')
 Basically, torch cached is used, and the huggingface hub module is used as a reference and wrapped.
 
 
+# References
+[1] https://github.com/huggingface/transformers
