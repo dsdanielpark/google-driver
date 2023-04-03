@@ -19,7 +19,7 @@ pip install googledriver
 
 # Features
 `Simple Download` <br>
-If you simply want to save to the local storage full path through the URL for sharing on Google Drive, use the following.
+To save a file from a shared Google Drive URL to local storage, use the following code.
 ```python
 from googledriver import download
 
@@ -30,7 +30,7 @@ download(URL, './model/tf_gpt2_model')
 <br>
 
 `Download as Cached` <br>
-If you want to download the file(or directory) as cached one from URL and need to return the path, use the following method.
+To download a cached file (or directory) from a URL and return its path, you can use the following method.
 
 ```python
 from googledriver import download
@@ -40,6 +40,7 @@ cached_path = download(URL, None, 'tf_model')
 ```
 Basically, torch cached is used, and the huggingface hub module is used as a reference and wrapped.
 
+<br>
 
 # References
 [1] https://github.com/huggingface/transformers
