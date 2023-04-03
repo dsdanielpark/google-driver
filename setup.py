@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="googledriver",
-    version="0.1.5",
+    version="0.1.6",
     author="parkminwoo",
     author_email="parkminwoo1991@gmail.com",
     description="The Python package google drive facilitates access to files uploaded to Google Drive.",
