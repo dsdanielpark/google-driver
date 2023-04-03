@@ -6,7 +6,7 @@
 ![Code convention](https://img.shields.io/badge/code%20convention-pep8-black)
 ![Black Fomatter](https://img.shields.io/badge/code%20style-black-000000.svg)
 
-The Python package google drive facilitates access to files uploaded to Google Drive.
+The Python package `Google-Driver` assists in downloading files and folders stored in Google Drive to make them easier to use. There are some constraints for model management through Hugging-Face and Git-Lfs, and it incurs costs. Therefore, I wrapped some codes to make it easy to store and load artificial intelligence model weights.
 
 <br>
 
@@ -44,7 +44,7 @@ Basically, torch cached is used, and the huggingface hub module is used as a ref
 <br>
 
 ## 2. Folder Download
-The return value returns the path of the saved files. However, it is different when using it as a cache folder.
+The return value returns the path of the saved files. However, it is different when using it as a cache folder. <br><br>
 `Download to current working directory` <br>
 ```python
 from googledriver import download_folder
