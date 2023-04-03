@@ -60,7 +60,7 @@ download_folder(URL)
 from googledriver import download_folder
 
 URL = 'https://drive.google.com/file/d/xxxxxxxxx/view?usp=share_link'
-save_folder = "./any/path/to/save/'
+save_folder = './any/path/to/save/'
 
 download_folder(URL, save_folder)
 ```
