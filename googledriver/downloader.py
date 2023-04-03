@@ -81,7 +81,7 @@ def save_file(response: str, save_path: str) -> None:
     :param save_path: Full file name to save to local storage
     :type save_path: str
     """
-    CHUNK_SIZE = 40000
+    CHUNK_SIZE = 99999999
     with open(save_path, "wb") as f:
         for chunk in response.iter_content(CHUNK_SIZE):
             if chunk:
