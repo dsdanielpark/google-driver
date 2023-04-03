@@ -30,7 +30,7 @@ download(URL, './model/tf_gpt2_model')
 <br>
 
 `Download as Cached` <br>
-If you want to download the cache file by URL and return the path, use the following.
+If you want to download the file(or directory) as cached one from URL and need to return the path, use the following method.
 
 ```python
 from googledriver import download
