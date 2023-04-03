@@ -10,6 +10,12 @@ The Python package `Google-Driver` assists in downloading files and folders stor
 
 <br>
 
+If the download fails, it may be due to attempting to download a folder with too many files, the Google Drive access permission is not set to everyone, or 3 the file is too large. For security reasons, we did not release the limit for large files. Large files often cause fatal viruses, so please be careful when using the package.
+Please note that the Python `gdown` package has broader exception handling and compatibility.
+
+<br>
+
+
 # Installation
 ```
 pip install googledriver
