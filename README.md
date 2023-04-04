@@ -6,12 +6,7 @@
 ![Code convention](https://img.shields.io/badge/code%20convention-pep8-black)
 ![Black Fomatter](https://img.shields.io/badge/code%20style-black-000000.svg)
 
-The Python package `Google-Driver` assists in downloading files and folders stored in Google Drive to make them easier to use. There are some constraints for model management through Hugging-Face and Git-Lfs, and it incurs costs. Therefore, I wrapped some codes to make it easy to store and load artificial intelligence model weights.
-
-<br>
-
-If the download fails, it may be due to attempting to download a folder with too many files, the Google Drive access permission is not set to everyone, or the file is too large. For security reasons, I did not release the limit for large files. Some files often cause fatal viruses, thus be careful when you try to download files.
-Note that the Python package `gdown` has broader exception handling and compatibility.
+The `Google-Driver` Python package simplifies downloading files and folders from Google Drive, with some constraints for model management through Hugging-Face and Git-Lfs. Issues may arise due to too many files, access permissions, or large file sizes. Be cautious with large files as they may contain viruses. The `gdown` package offers better exception handling and compatibility.
 
 <br>
 
