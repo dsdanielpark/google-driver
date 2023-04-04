@@ -187,7 +187,8 @@ def download_folder(URL=None, save_path=None, cached=None):
         )
 
         if filename is None:
-            return
+            print("Download ended unsuccessfully", file=sys.stderr)
+
         filenames.append(filename)
 
     if cached == True:
