@@ -17,12 +17,6 @@ def get_version():
 def get_long_description():
     with open("README.md") as f:
         long_description = f.read()
-
-    try:
-        import github2pypi  # NOQA
-
-        return github2pypi.replace_url(slug="wkentaro/gdown", content=long_description)
-    except Exception:
         return long_description
 
 
