@@ -16,6 +16,9 @@ import bs4
 import requests
 
 
+MAX_DOWNLOAD_LIMIT = 50
+
+
 class _GoogleDriveObj(object):
     FOLDER = "application/vnd.google-apps.folder"
 
@@ -58,7 +61,7 @@ def _parse_google_drive_obj(URL, content):
         name = sep.join(splitted[:-1])
     else:
         raise RuntimeError(
-            "file/folder name cannot be extracted from: {}".format(
+            "file/folder name cannot be extracted: {}".format(
                 folder_soup.title.contents[0]
             )
         )
@@ -79,7 +82,6 @@ def _get_google_drive_objs(URL,):
 
     status_code = True
 
-    # canonicalize the language into English
     if "?" in URL:
         URL += "&hl=en"
     else:
@@ -90,7 +92,7 @@ def _get_google_drive_objs(URL,):
     try:
         res = session.get(URL)
     except requests.exceptions.ProxyError as e:
-        print("An error has occurred using proxy:", session.proxies, file=sys.stderr)
+        print("Proxy error:", session.proxies, file=sys.stderr)
         print(e, file=sys.stderr)
         return False, None
 
@@ -121,7 +123,6 @@ def _get_google_drive_objs(URL,):
 
 
 def _get_directory_structure(google_drive_file, previous_path):
-    """Converts a Google Drive folder structure into a local directory list."""
 
     directory_structure = []
     for file in google_drive_file.children:
@@ -152,7 +153,7 @@ def download_folder(URL=None, save_path=None, cached=None):
     try:
         status_code, google_drive_file = _get_google_drive_objs(URL,)
     except RuntimeError as e:
-        print("Failed to retrieve folder contents:", file=sys.stderr)
+        print("Failed to download:", file=sys.stderr)
         error = "\n".join(textwrap.wrap(str(e)))
         print("\n", error, "\n", file=sys.stderr)
         return
@@ -187,7 +188,7 @@ def download_folder(URL=None, save_path=None, cached=None):
         )
 
         if filename is None:
-            print("Download ended unsuccessfully", file=sys.stderr)
+            print("Failed to download", file=sys.stderr)
 
         filenames.append(filename)
 
