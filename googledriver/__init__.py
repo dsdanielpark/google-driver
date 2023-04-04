@@ -1,4 +1,6 @@
 # utf-8
+# flake8: noqa
+
 from googledriver.downloader import (
     download,
     get_token,
@@ -21,4 +23,5 @@ __all__ = [
     download_folder,
 ]
 
-__version__ = ["0.1.6"]
+__version__ = "0.1.6"
+__author__ = "MinWoo Park <parkminwoo1991@gmail.com>"
