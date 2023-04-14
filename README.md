@@ -1,3 +1,7 @@
+Development Status :: 3 - Alpha <br>
+*Copyright (c) 2023 MinWoo Park*
+<br>
+
 # Google-Driver
 ![YouTuber](https://img.shields.io/badge/pypi-googledriver-blue)
 ![Pypi Version](https://img.shields.io/pypi/v/googledriver.svg)
